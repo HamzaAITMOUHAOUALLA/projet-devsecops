@@ -1,0 +1,31 @@
+name: Reusable Security Scan
+
+on:
+  workflow_call:
+    inputs:
+      docker_image:
+        required: false
+        type: string
+    secrets:
+      SNYK_TOKEN:
+        required: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install -g snyk
+      - run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - run: snyk test --json > snyk-code.json
+      - if: ${{ inputs.docker_image != '' }}
+        run: snyk container test ${{ inputs.docker_image }} --json > snyk-docker.json
+      - run: |
+          curl -X POST http://localhost:3001/upload/code \
+            -H "Content-Type: application/json" \
+            --data-binary @snyk-code.json
+      - if: ${{ inputs.docker_image != '' }}
+        run: |
+          curl -X POST http://localhost:3001/upload/docker \
+            -H "Content-Type: application/json" \
+            --data-binary @snyk-docker.json
