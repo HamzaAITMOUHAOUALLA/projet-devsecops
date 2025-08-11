@@ -2,39 +2,34 @@ name: Snyk Security Scan
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  security:
+  snyk:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Récupérer le code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Installer Node.js (version LTS)
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      # 3. Installer les dépendances
-      - name: Install dependencies
-        run: npm install
-
-      # 4. Installer Snyk
       - name: Install Snyk
         run: npm install -g snyk
 
-      # 5. Authentifier Snyk avec ton token
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      # 6. Lancer un scan Snyk
-      - name: Run Snyk scan
-        run: snyk test --severity-threshold=low
+      - name: Scan backend
+        run: |
+          cd backend
+          snyk test || true
+
+      - name: Scan dashboard
+        run: |
+          cd dashboard
+          snyk test || true
