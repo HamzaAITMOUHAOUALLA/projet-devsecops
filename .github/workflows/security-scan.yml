@@ -1,31 +1,40 @@
-name: Reusable Security Scan
+name: Snyk Security Scan
 
 on:
-  workflow_call:
-    inputs:
-      docker_image:
-        required: false
-        type: string
-    secrets:
-      SNYK_TOKEN:
-        required: true
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  scan:
+  security:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - run: npm install -g snyk
-      - run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      - run: snyk test --json > snyk-code.json
-      - if: ${{ inputs.docker_image != '' }}
-        run: snyk container test ${{ inputs.docker_image }} --json > snyk-docker.json
-      - run: |
-          curl -X POST http://localhost:3001/upload/code \
-            -H "Content-Type: application/json" \
-            --data-binary @snyk-code.json
-      - if: ${{ inputs.docker_image != '' }}
-        run: |
-          curl -X POST http://localhost:3001/upload/docker \
-            -H "Content-Type: application/json" \
-            --data-binary @snyk-docker.json
+      # 1. Récupérer le code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Installer Node.js (version LTS)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. Installer les dépendances
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Installer Snyk
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      # 5. Authentifier Snyk avec ton token
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      # 6. Lancer un scan Snyk
+      - name: Run Snyk scan
+        run: snyk test --severity-threshold=low
