@@ -1,25 +1,18 @@
+# Étape 1 : Choisir Node.js
+FROM node:18
 
-# Utiliser une image Python officielle
-FROM python:3.9
-
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Définir le répertoire de travail
+# Étape 2 : Créer répertoire de travail
 WORKDIR /app
 
-# Copier les dépendances
-COPY requirements.txt /app/
+# Étape 3 : Copier package.json et installer dépendances
+COPY package*.json ./
+RUN npm install --production
 
-# Installer les dépendances Python
-RUN pip install -r requirements.txt
+# Étape 4 : Copier le reste du code
+COPY . .
 
-# Copier le code source
-COPY . /app/
+# Étape 5 : Exposer le port du backend
+EXPOSE 3001
 
-# Exposer le port Django
-EXPOSE 8000
-
-
-# Commande de lancement de Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Étape 6 : Lancer le serveur
+CMD ["node", "server.js"]

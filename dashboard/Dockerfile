@@ -1,25 +1,18 @@
-
-# Utiliser une image Python officielle
-FROM python:3.9
-
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Définir le répertoire de travail
+# Étape 1 : Build de l'application React
+FROM node:18 AS build
 WORKDIR /app
 
-# Copier les dépendances
-COPY requirements.txt /app/
+# Copier package.json et installer les dépendances
+COPY package*.json ./
+RUN npm install
 
-# Installer les dépendances Python
-RUN pip install -r requirements.txt
+# Copier tout le code et build l'application
+COPY . .
+RUN npm run build
 
-# Copier le code source
-COPY . /app/
+# Étape 2 : Servir avec Nginx
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Exposer le port Django
-EXPOSE 8000
-
-
-# Commande de lancement de Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
