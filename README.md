@@ -1,11 +1,7 @@
 # 🔒 DevSecOps Security Scanning Platform For Your App Code ...
 
-<<<<<<< HEAD
-A DevSecOps web platform that allows users to submit a **GitHub repository URL** and receive **real-time security scan results** in a dashboard.  
-=======
  A **DevSecOps web platform** that allows users to submit a **GitHub repository URL** and receive **real-time security scan results** in a dashboard.  
->>>>>>> b8f1ac961676e3592c1b807c8ba111ded85d6439
-The scanning is performed by **GitHub Actions** using **Snyk** for dependency, code, and container security analysis.
+The scanning is performed by **GitHub Actions** using **Snyk & Trivy** for dependency, code, and container security analysis.
 This is a project realised by AIT MOUHA OUALLA HAMZA and BAYCHOU BRAHIM (Students at ENSAS School) in collaboration with TASMIM WEB Startup.
 
 ## 📌 Features
@@ -41,7 +37,7 @@ This is a project realised by AIT MOUHA OUALLA HAMZA and BAYCHOU BRAHIM (Student
 3. Workflow:
    - Clones the repository.
    - Detects the project type.
-   - Runs Snyk scans.
+   - Runs Snyk / Trivy scans.
    - Sends results back to the platform API.
 4. Backend stores results in the database.
 5. Frontend dashboard displays the results in real time.
@@ -53,9 +49,9 @@ This is a project realised by AIT MOUHA OUALLA HAMZA and BAYCHOU BRAHIM (Student
 - **Frontend:** ReactJS
 - **Backend:** Node.js / Python
 - **CI/CD:** GitHub Actions
-- **Security Scanning:** Snyk
+- **Security Scanning:** Snyk , Trivy
 - **Database:** PostgreSQL / MongoDB (didn't decide yet ...)
-- **Hosting:** Any cloud platform (AWS, Azure, GCP, etc.) (if we deployed the dasbhoard...)
+- **Hosting:** K8s / Docker with AgroCd ...
 
 ---
 
