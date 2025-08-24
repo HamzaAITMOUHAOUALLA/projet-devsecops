@@ -13,7 +13,7 @@ This is a project realised by AIT MOUHA OUALLA HAMZA and BAYCHOU BRAHIM (Student
   - Python
   - PHP
   - Docker
-- **Multiple Snyk scans**:
+- **Multiple Snyk scans** :
   - Dependency vulnerabilities
   - Code security
   - Container image vulnerabilities
