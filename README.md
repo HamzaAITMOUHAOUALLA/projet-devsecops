@@ -4,7 +4,7 @@
 The scanning is performed by **GitHub Actions** using **Snyk & Trivy** for dependency, code, and container security analysis.
 This is a project realised by AIT MOUHA OUALLA HAMZA and BAYCHOU BRAHIM (Students at ENSAS School) in collaboration with TASMIM WEB Startup.
 
-## 📌 Features
+## 📌 Features 
 
 - **User-friendly dashboard** to track scans.
 - **Manual scan trigger** via repository URL input.
