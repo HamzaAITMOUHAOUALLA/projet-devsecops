@@ -50,7 +50,7 @@ This is a project realised by AIT MOUHA OUALLA HAMZA and BAYCHOU BRAHIM (Student
 - **Backend:** Node.js / Python
 - **CI/CD:** GitHub Actions
 - **Security Scanning:** Snyk
-- **Database:** PostgreSQL / MongoDB (didn't decide yet ...)
+- **Database:** PostgreSQL / MongoDB (didn't decide yet...)
 - **Hosting:** Any cloud platform (AWS, Azure, GCP, etc.) (if we deployed the dasbhoard...)
 
 ---
